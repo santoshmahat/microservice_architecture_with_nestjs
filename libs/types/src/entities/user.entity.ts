@@ -15,27 +15,27 @@ import {
   tableName: 'users',
 })
 export class User extends Model<User> {
-  @Column(DataType.INTEGER)
   @PrimaryKey
   @AutoIncrement
   @AllowNull(false)
+  @Column(DataType.INTEGER)
   id: number;
 
-  @Column(DataType.STRING)
   @AllowNull(false)
+  @Column(DataType.STRING)
   firstName: string;
 
-  @Column(DataType.STRING)
   @AllowNull(false)
+  @Column(DataType.STRING)
   lastName: string;
 
-  @Column(DataType.STRING)
   @AllowNull(false)
   @Unique(true)
+  @Column(DataType.STRING)
   email: string;
 
-  @Column(DataType.STRING)
   @AllowNull(false)
+  @Column(DataType.STRING)
   password: string;
 
   @CreatedAt

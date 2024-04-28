@@ -7,31 +7,35 @@ import {
   ForeignKey,
   Model,
   PrimaryKey,
+  Table,
 } from 'sequelize-typescript';
 import { Post, User } from './';
 
+@Table({
+  tableName: 'comments',
+})
 export class Comment extends Model<Comment> {
-  @Column(DataType.INTEGER)
   @PrimaryKey
   @AutoIncrement
   @AllowNull(false)
+  @Column(DataType.INTEGER)
   id: number;
 
-  @Column(DataType.TEXT)
   @AllowNull(false)
+  @Column(DataType.TEXT)
   content: string;
 
   @ForeignKey(() => Post)
-  @Column(DataType.INTEGER)
   @AllowNull(false)
+  @Column(DataType.INTEGER)
   postId: number;
 
   @BelongsTo(() => Post, 'postId')
   post: Post;
 
   @ForeignKey(() => User)
-  @Column(DataType.INTEGER)
   @AllowNull(false)
+  @Column(DataType.INTEGER)
   createdById: number;
 
   @BelongsTo(() => User, 'createdById')
