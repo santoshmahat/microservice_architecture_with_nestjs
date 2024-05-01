@@ -23,6 +23,12 @@
       ],
       "@app/types/*": [
         "libs/types/src/*"
+      ],
+      "@app/guards": [
+        "libs/guards/src"
+      ],
+      "@app/guards/*": [
+        "libs/guards/src/*"
       ]
     }
   }

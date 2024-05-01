@@ -1,12 +1,13 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, UseGuards } from '@nestjs/common';
 import { PostsService } from './posts.service';
+import { JwtAuthGuard } from '@app/guards';
 
 @Controller('/posts')
 export class PostsController {
   constructor(private readonly postsService: PostsService) {}
-
+  @UseGuards(JwtAuthGuard)
   @Get()
-  getHello(): string {
-    return this.postsService.getHello();
+  async findAll() {
+    return this.postsService.findAll();
   }
 }

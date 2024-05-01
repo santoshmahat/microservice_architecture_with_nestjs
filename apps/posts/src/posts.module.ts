@@ -3,7 +3,8 @@ import { PostsController } from './posts.controller';
 import { PostsService } from './posts.service';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { Comment, Post, User } from '@app/types/entities';
+import { Post, User } from '@app/types';
+import { JwtService } from '@nestjs/jwt';
 
 @Module({
   imports: [
@@ -14,13 +15,14 @@ import { Comment, Post, User } from '@app/types/entities';
         password: configService.get('DB_PASSWORD'),
         dialect: configService.get('DB_DIALECT'),
         host: configService.get('DB_HOST'),
-        models: [User, Post, Comment],
+        models: [Post, User],
       }),
       inject: [ConfigService],
     }),
+    SequelizeModule.forFeature([Post]),
     ConfigModule.forRoot({ isGlobal: true }),
   ],
   controllers: [PostsController],
-  providers: [PostsService],
+  providers: [PostsService, JwtService],
 })
 export class PostsModule {}
