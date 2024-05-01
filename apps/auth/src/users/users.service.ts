@@ -11,9 +11,9 @@ import { CreateUserDto, UpdateUserDto, User } from '@app/types';
 export class UsersService {
   constructor(@InjectModel(User) private readonly userModel: typeof User) {}
 
-  async create(createUserDto: CreateUserDto): Promise<Partial<User>> {
+  async create(createUserDto: CreateUserDto): Promise<Omit<User, 'password'>> {
     const { email } = createUserDto;
-    const existingUser = await this.userModel.findOne({ where: { email } });
+    const existingUser = await this.findOneByEmail(email);
     if (existingUser)
       throw new BadRequestException('Account already exist with this email');
 
@@ -24,32 +24,39 @@ export class UsersService {
       password: hashPassword,
     });
 
-    const { password, ...payload } = newUser;
-
-    return payload;
+    return newUser;
   }
 
   findAll() {
     return this.userModel.findAll();
   }
 
-  async findOne(id: number) {
+  async findOne(id: number): Promise<User> {
     const user = await this.userModel.findByPk(id);
     if (!user) throw new NotFoundException();
     return user;
   }
 
-  async findOneByEmail(email: string) {
+  async findOneByEmail(email: string): Promise<User> {
     const user = await this.userModel.findOne({ where: { email } });
     if (!user) throw new NotFoundException();
     return user;
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
+    const [affectedCount] = await this.userModel.update(updateUserDto, {
+      where: { id },
+    });
+
+    if (affectedCount === 0) {
+      throw new NotFoundException(`User with id ${id} not found.`);
+    }
+
+    return this.findOne(id);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  async remove(id: number): Promise<void> {
+    const user = await this.findOne(id);
+    user.destroy();
   }
 }
