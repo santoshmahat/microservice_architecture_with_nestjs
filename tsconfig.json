@@ -29,6 +29,12 @@
       ],
       "@app/guards/*": [
         "libs/guards/src/*"
+      ],
+      "@app/utils": [
+        "libs/utils/src"
+      ],
+      "@app/utils/*": [
+        "libs/utils/src/*"
       ]
     }
   }

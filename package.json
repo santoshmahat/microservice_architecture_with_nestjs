@@ -86,7 +86,8 @@
     "moduleNameMapper": {
       "^@app/libs(|/.*)$": "<rootDir>/libs/libs/src/$1",
       "^@app/types(|/.*)$": "<rootDir>/libs/types/src/$1",
-      "^@app/guards(|/.*)$": "<rootDir>/libs/guards/src/$1"
+      "^@app/guards(|/.*)$": "<rootDir>/libs/guards/src/$1",
+      "^@app/utils(|/.*)$": "<rootDir>/libs/utils/src/$1"
     }
   }
 }
