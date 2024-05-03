@@ -3,11 +3,13 @@ import {
   AutoIncrement,
   BelongsTo,
   Column,
+  CreatedAt,
   DataType,
   ForeignKey,
   Model,
   PrimaryKey,
   Table,
+  UpdatedAt,
 } from 'sequelize-typescript';
 import { Post, User } from './';
 
@@ -40,4 +42,10 @@ export class Comment extends Model<Comment> {
 
   @BelongsTo(() => User, 'createdById')
   createdBy: User;
+
+  @CreatedAt
+  createdAt: Date;
+
+  @UpdatedAt
+  updatedAt: Date;
 }

@@ -3,8 +3,10 @@ import { ApiGatewayModule } from './api-gateway.module';
 import { ConfigService } from '@nestjs/config';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 import { UnauthorizedException } from '@nestjs/common';
-import { NextFunction, Request, Response } from 'express';
+import { Response } from 'express';
 import { JwtService } from '@nestjs/jwt';
+import { ClientRequest } from 'http';
+import { UserInfoRequest } from '@app/types';
 
 async function bootstrap() {
   const app = await NestFactory.create(ApiGatewayModule);
@@ -20,23 +22,23 @@ async function bootstrap() {
   const postServicePort = configService.get<string>('POST_SERVICE_PORT');
   const postServiceHost = configService.get<string>('POST_SERVICE_HOST');
 
-  const checkAuthentication = async (
-    req: Request,
-    res: Response,
-    next: NextFunction
+  const onProxyReq = (
+    _proxyReq: ClientRequest,
+    req: UserInfoRequest,
+    res: Response
   ) => {
     try {
+      if (req.path.includes('/login')) return;
+
       const [type, bearerToken] = req?.headers?.authorization?.split(' ') ?? [];
       const token = type === 'Bearer' ? bearerToken : undefined;
       if (!token) {
         throw new UnauthorizedException('Invalid token');
       }
-      const decodedUser = await jwtService.verify(token, {
+      const decodedUser = jwtService.verify(token, {
         secret: configService.get('JWT_SECRET'),
       });
-
-      req['user'] = decodedUser;
-      next();
+      _proxyReq.setHeader('user', JSON.stringify(decodedUser));
     } catch (error) {
       return res.status(401).json({ message: error.message });
     }
@@ -44,22 +46,23 @@ async function bootstrap() {
 
   app.use(
     '/api/auth',
-    (req: Request, res: Response, next: NextFunction) => {
-      if (req.path.includes('/login')) {
-        return next();
-      }
-      checkAuthentication(req, res, next);
-    },
     createProxyMiddleware({
       target: `http://${authServiceHost}:${authServicePort}`,
+      changeOrigin: true,
+      on: {
+        proxyReq: onProxyReq,
+      },
     })
   );
 
   app.use(
     '/api/post',
-    checkAuthentication,
     createProxyMiddleware({
       target: `http://${postServiceHost}:${postServicePort}`,
+      changeOrigin: true,
+      on: {
+        proxyReq: onProxyReq,
+      },
     })
   );
 

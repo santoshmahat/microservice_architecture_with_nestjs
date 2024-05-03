@@ -3,18 +3,20 @@ import {
   AutoIncrement,
   BelongsTo,
   Column,
+  CreatedAt,
   DataType,
   ForeignKey,
   Model,
   PrimaryKey,
   Table,
+  UpdatedAt,
 } from 'sequelize-typescript';
 import { User } from './User.entity';
 
 @Table({
   tableName: 'posts',
 })
-export class Post extends Model<Comment> {
+export class Post extends Model<Post> {
   @PrimaryKey
   @AutoIncrement
   @AllowNull(false)
@@ -36,4 +38,10 @@ export class Post extends Model<Comment> {
 
   @BelongsTo(() => User, 'createdById')
   createdBy: User;
+
+  @CreatedAt
+  createdAt: Date;
+
+  @UpdatedAt
+  updatedAt: Date;
 }
