@@ -22,6 +22,9 @@ async function bootstrap() {
   const postServicePort = configService.get<string>('POST_SERVICE_PORT');
   const postServiceHost = configService.get<string>('POST_SERVICE_HOST');
 
+  const commentServicePort = configService.get<string>('COMMENT_SERVICE_PORT');
+  const commentServiceHost = configService.get<string>('COMMENT_SERVICE_HOST');
+
   const onProxyReq = (
     _proxyReq: ClientRequest,
     req: UserInfoRequest,
@@ -59,6 +62,17 @@ async function bootstrap() {
     '/api/post',
     createProxyMiddleware({
       target: `http://${postServiceHost}:${postServicePort}`,
+      changeOrigin: true,
+      on: {
+        proxyReq: onProxyReq,
+      },
+    })
+  );
+
+  app.use(
+    '/api/comment',
+    createProxyMiddleware({
+      target: `http://${commentServiceHost}:${commentServicePort}`,
       changeOrigin: true,
       on: {
         proxyReq: onProxyReq,

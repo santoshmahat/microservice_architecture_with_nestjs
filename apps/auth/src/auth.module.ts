@@ -35,19 +35,10 @@ import * as joi from 'joi';
         JWT_SECRET: joi.string().required(),
         JWT_EXPIRES_IN: joi.string().required(),
 
-        // API_GATEWAY_PORT: joi.string().required(),
         AUTH_SERVICE_PORT: joi.string().required(),
-        // POST_SERVICE_PORT: joi.string().required(),
-        // COMMENT_SERVICE_PORT: joi.string().required(),
-
-        // API_GATEWAY_HOST: joi.string().required(),
-        // AUTH_SERVICE_HOST: joi.string().required(),
-        // POST_SERVICE_HOST: joi.string().required(),
-        // COMMENT_SERVICE_HOST: joi.string().required(),
       }),
     }),
     JwtModule.registerAsync({
-      imports: [ConfigModule.forRoot()],
       useFactory: (configService: ConfigService) => ({
         global: true,
         secret: configService.get('JWT_SECRET'),

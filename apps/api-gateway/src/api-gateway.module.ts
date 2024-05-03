@@ -14,6 +14,8 @@ import { JwtService } from '@nestjs/jwt';
         AUTH_SERVICE_HOST: joi.string().required(),
         POST_SERVICE_PORT: joi.string().required(),
         POST_SERVICE_HOST: joi.string().required(),
+        COMMENT_SERVICE_PORT: joi.string().required(),
+        COMMENT_SERVICE_HOST: joi.string().required(),
         JWT_SECRET: joi.string().required(),
       }),
     }),

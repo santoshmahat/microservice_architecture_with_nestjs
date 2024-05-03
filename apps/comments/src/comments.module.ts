@@ -1,10 +1,9 @@
 import { Module } from '@nestjs/common';
-import { PostsController } from './posts.controller';
-import { PostsService } from './posts.service';
+import { CommentsController } from './comments.controller';
+import { CommentsService } from './comments.service';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { Post, User } from '@app/types';
-import { JwtService } from '@nestjs/jwt';
+import { Post, Comment, User } from '@app/types';
 import * as joi from 'joi';
 
 @Module({
@@ -16,11 +15,10 @@ import * as joi from 'joi';
         password: configService.get('DB_PASSWORD'),
         dialect: configService.get('DB_DIALECT'),
         host: configService.get('DB_HOST'),
-        models: [Post, User],
+        models: [Post, Comment, User],
       }),
       inject: [ConfigService],
     }),
-    SequelizeModule.forFeature([Post]),
     ConfigModule.forRoot({
       isGlobal: true,
       validationSchema: joi.object({
@@ -29,11 +27,12 @@ import * as joi from 'joi';
         DB_PASSWORD: joi.string().required(),
         DB_DIALECT: joi.string().required(),
         DB_HOST: joi.string().required(),
-        POST_SERVICE_PORT: joi.string().required(),
+        COMMENT_SERVICE_PORT: joi.string().required(),
       }),
     }),
+    SequelizeModule.forFeature([Post, Comment]),
   ],
-  controllers: [PostsController],
-  providers: [PostsService, JwtService],
+  controllers: [CommentsController],
+  providers: [CommentsService],
 })
-export class PostsModule {}
+export class CommentsModule {}
