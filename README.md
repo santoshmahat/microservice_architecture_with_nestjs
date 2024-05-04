@@ -32,8 +32,8 @@
 $ npm install
 ```
 
-## Overview of the application architecture
-This is a simple blog application based on microservice architecture. It has mainly 4 sub-domian:
+## Overview
+This is a simple blog based on microservice architecture. It has mainly 4 sub-domian:
 - api-gateway - This is the main entry point where client will send requests.
 - auth - This service is responsible for login, register, generating Jwt token related to auth and users.
 - posts - This service is responsible for managing posts.
