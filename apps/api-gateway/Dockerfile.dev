@@ -1,0 +1,19 @@
+FROM node:18-alpine
+
+WORKDIR /app
+
+COPY ./package.json .
+
+COPY ./package-lock.json .
+
+RUN npm install -f
+
+COPY . .
+
+RUN npm run build api-gateway
+
+
+CMD ["node", "./dist/apps/api-gateway/main.js"]
+
+
+ 

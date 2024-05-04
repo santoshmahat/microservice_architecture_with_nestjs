@@ -1,0 +1,66 @@
+version: '3'
+services:
+  api-gateway:
+    build:
+      dockerfile: ./apps/api-gateway/Dockerfile.dev
+      context: .
+    env_file:
+      - ./apps/api-gateway/.env
+    ports:
+      - "3000:3000"
+
+  auth:
+    build:
+      dockerfile: ./apps/auth/Dockerfile.dev
+      context: .
+    env_file:
+      - ./apps/auth/.env
+    ports:
+      - "3001:3001"
+    depends_on:
+      - api-gateway
+
+  post:
+    build:
+      dockerfile: ./apps/posts/Dockerfile.dev
+      context: .
+    env_file:
+      - ./apps/posts/.env
+    ports:
+      - "3002:3002"
+    depends_on:
+      - api-gateway
+
+  comment:
+    build:
+      dockerfile: ./apps/comments/Dockerfile.dev
+      context: .
+    env_file:
+      - ./apps/comments/.env
+    ports:
+      - "3003:3003"
+    depends_on:
+      - api-gateway
+  
+  mysql:
+    image: mysql:latest
+    environment:
+      - MYSQL_ROOT_PASSWORD=my-secret-pw
+      - MYSQL_DATABASE=blog_development
+      - MYSQL_USER=blog
+      - MYSQL_PASSWORD=blog
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+volumes:
+  mysql_data:
+
+
+  
+
+  
+
+
+  
+    

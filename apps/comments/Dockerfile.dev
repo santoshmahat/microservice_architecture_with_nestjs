@@ -1,0 +1,19 @@
+FROM node:18-alpine
+
+WORKDIR /app
+
+COPY ./package.json ./
+
+COPY ./package-lock.json ./
+
+RUN npm install 
+
+COPY ./ ./
+
+RUN npm run build comments
+
+
+CMD ["node", "./dist/apps/comments/main.js"]
+
+
+ 
