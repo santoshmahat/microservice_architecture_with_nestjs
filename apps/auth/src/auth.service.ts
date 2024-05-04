@@ -1,4 +1,4 @@
-import { LoginDto } from '@app/types';
+import { CreateUserDto, LoginDto, User } from '@app/types';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcryptjs';
 import { UsersService } from './users/users.service';
@@ -24,5 +24,11 @@ export class AuthService {
       message: 'User is login successfully',
       token: jwtToken,
     };
+  }
+
+  async register(
+    createUserDto: CreateUserDto
+  ): Promise<Omit<User, 'password'>> {
+    return await this.usersService.create(createUserDto);
   }
 }

@@ -39,7 +39,6 @@ export class UsersService {
 
   async findOneByEmail(email: string): Promise<User> {
     const user = await this.userModel.findOne({ where: { email } });
-    if (!user) throw new NotFoundException();
     return user;
   }
 

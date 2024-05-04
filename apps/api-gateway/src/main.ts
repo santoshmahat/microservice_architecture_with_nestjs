@@ -31,7 +31,7 @@ async function bootstrap() {
     res: Response
   ) => {
     try {
-      if (req.path.includes('/login')) return;
+      if (req.path.includes('auth/')) return;
 
       const [type, bearerToken] = req?.headers?.authorization?.split(' ') ?? [];
       const token = type === 'Bearer' ? bearerToken : undefined;
