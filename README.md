@@ -33,8 +33,8 @@ $ npm install
 ```
 
 ## Overview
-This is a simple blog based on microservice architecture. It has mainly 4 sub-domian:
-- api-gateway - This is the main entry point where client will send requests.
+This is a simple blog based on HTTP microservice architecture. It has mainly 4 sub-domian:
+- api-gateway - This is a centralized entry point for clients to interact with various microservices in the system that proxies requests to different services (posts, comments,    and auth) using http-proxy-middleware.
 - auth - This service is responsible for login, register, generating Jwt token related to auth and users.
 - posts - This service is responsible for managing posts.
 - comments - This service is responsible for managing comments.
