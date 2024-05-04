@@ -32,12 +32,12 @@
 $ npm install
 ```
 
-## Overview the app architecture
+## Overview of the application architecture
 This is a simple blog application based on microservice architecture. It has mainly 4 sub-domian:
-- api-gateway - This is the main entry point where client will send a request.
-- auth - This service is resposible for login, register, generating Jwt token related to auth and users.
-- posts - This service is reponsible for managing posts.
-- comments - This service is reponsible for managing comments.
+- api-gateway - This is the main entry point where client will send requests.
+- auth - This service is responsible for login, register, generating Jwt token related to auth and users.
+- posts - This service is responsible for managing posts.
+- comments - This service is responsible for managing comments.
 
 ## Running the app
 With docker
