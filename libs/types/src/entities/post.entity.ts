@@ -11,7 +11,7 @@ import {
   Table,
   UpdatedAt,
 } from 'sequelize-typescript';
-import { User } from './User.entity';
+import { User } from './user.entity';
 
 @Table({
   tableName: 'posts',
